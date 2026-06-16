@@ -18,7 +18,6 @@ body{
     justify-content:center;
     align-items:center;
     min-height:100vh;
-    padding: 20px;
 }
 
 .card{
@@ -55,11 +54,10 @@ input{
     border:1px solid #ccc;
     border-radius:8px;
     font-size:16px;
-    text-transform: uppercase;
 }
 
-button.search-btn {
-    width: 100%;
+button{
+    width:100%;
     padding:12px;
     margin-top:15px;
     border:none;
@@ -70,61 +68,73 @@ button.search-btn {
     cursor:pointer;
 }
 
-button.search-btn:hover{
+button:hover{
     background:#004080;
 }
 
 .footer{
-    margin-top:25px;
+    margin-top:20px;
     font-size:12px;
-    color:#888;
+    color:#777;
 }
 </style>
 </head>
+
 <body>
 
 <div class="card">
-    <img src="https://drive.google.com/thumbnail?id=1wZorZzHUDAtyb860RFnEowOrGNwRP5mR&sz=w300"
+
+    <img src="https://drive.google.com/thumbnail?id=1wZorZzHUDAtyb860RFnEowOrGNwRP5mR"
          class="logo"
-         alt="Company Logo"
-         loading="lazy">
+         alt="Company Logo">
 
-    <h1>Employee Search Portal</h1>
-    <p class="subtitle">Enter employee code to view employee profile</p>
+    <h1>Employee Safety Portal</h1>
 
-    <input type="text" id="empid" placeholder="Enter Employee Code (e.g. EMP001)" autocomplete="off">
-    <button class="search-btn" onclick="searchEmployee()">Search Profile</button>
+    <p class="subtitle">
+        Enter Employee ID to View Safety Profile
+    </p>
 
-    <div class="footer">created by emveess safety dept.</div>
+    <input
+        type="text"
+        id="empid"
+        placeholder="Enter Employee ID (EMP001)"
+        autocomplete="off">
+
+    <button onclick="searchEmployee()">
+        Search Profile
+    </button>
+
+    <div class="footer">
+        Safety Management System
+    </div>
+
 </div>
 
 <script>
+
 function searchEmployee(){
-    var empid = document.getElementById("empid").value.trim().toUpperCase();
-    
-    // Agar kisi ne khali box chhod kar search dabaya toh error page par nahi bhejega
+
+    let empid = document.getElementById("empid")
+                  .value
+                  .trim()
+                  .toUpperCase();
+
     if(empid === ""){
-        alert("Kripya pehle Employee Code dalein!");
+        alert("Please enter Employee ID");
         return;
     }
-    
-    // Aapka wahi fix main URL jiske aage ID lagani h
-    var baseUrl = "https://script.google.com/macros/s/AKfycbz8ElMc4zHXKox4d923V2rbh_x6nsRzNEWx2rRCTaU4XfILcScJUfb5bbvRKPVSwZ8HAg/exec";
-    
-    // Final URL generate hoga jaise: baseUrl + ?id=EMP001
-    var finalUrl = baseUrl + "?id=" + encodeURIComponent(empid);
-    
-    // Profile ko naye tab me open karega taaki aapka ye portal hamesha peeche fast khula rahe
-    window.open(finalUrl, '_blank');
-    
-    // Search karne ke baad box ko wapas khali karne ke liye
-    document.getElementById("empid").value = "";
+
+    window.location.href =
+    "https://script.google.com/macros/s/AKfycbx3Pyel1QtuCxXbSg1i3FcXPvihTWzPeEP9TH7LrJRWLVLrcFBKOXz-3OBz5c4xYHzJPg/exec?id="
+    + encodeURIComponent(empid);
 }
 
-// Keyboard se 'Enter' dabane par bhi search chal jaye uske liye
 document.getElementById("empid").addEventListener("keypress", function(e){
-    if(e.key === "Enter"){ searchEmployee(); }
+    if(e.key === "Enter"){
+        searchEmployee();
+    }
 });
+
 </script>
 
 </body>
