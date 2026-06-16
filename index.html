@@ -15,36 +15,10 @@
 body{
     background:#f4f6f9;
     display:flex;
-    flex-direction: column;
     justify-content:center;
     align-items:center;
     min-height:100vh;
     padding: 20px;
-}
-
-.top-nav {
-    width: 100%;
-    max-width: 420px;
-    margin-bottom: 15px;
-    text-align: left;
-}
-
-.back-btn {
-    background: #ffffff;
-    color: #0056a6;
-    padding: 10px 18px;
-    border: 1px solid #0056a6;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    transition: all 0.2s ease;
-}
-
-.back-btn:hover {
-    background: #0056a6;
-    color: #fff;
 }
 
 .card{
@@ -106,51 +80,17 @@ button.search-btn:hover{
     color:#888;
 }
 </style>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    var urlParams = new URLSearchParams(window.location.search);
-    var empId = urlParams.get('id');
-
-    if (empId) {
-        document.getElementById("backContainer").style.display = "block";
-        document.getElementById("backContainer").style.maxWidth = "760px";
-        document.getElementById("searchCard").style.display = "none";
-    }
-});
-
-function searchEmployee(){
-    var empid = document.getElementById("empid").value.trim().toUpperCase();
-    if(empid === ""){
-        alert("Please enter Employee Code");
-        return;
-    }
-    // Main Database Script URL
-    var scriptUrl = "https://script.google.com/macros/s/AKfycbz8ElMc4zHXKox4d923V2rbh_x6nsRzNEWx2rRCTaU4XfILcScJUfb5bbvRKPVSwZ8HAg/exec?id=";
-    window.location.href = scriptUrl + encodeURIComponent(empid);
-}
-
-// GitHub Pages par wapas reload karne ka behtar tarika (Bina kisi error ke)
-function goBackToPortal() {
-    window.location.href = window.location.origin + window.location.pathname;
-}
-</script>
 </head>
-
 <body>
 
-<div class="top-nav" id="backContainer" style="display: none;">
-    <button class="back-btn" onclick="goBackToPortal()">← Back to Search Portal</button>
-</div>
-
-<div class="card" id="searchCard">
+<div class="card">
     <img src="https://drive.google.com/thumbnail?id=1wZorZzHUDAtyb860RFnEowOrGNwRP5mR&sz=w300"
          class="logo"
          alt="Company Logo"
          loading="lazy">
 
     <h1>Employee Search Portal</h1>
-    <p class="subtitle">enter employee code to view employee profile</p>
+    <p class="subtitle">Enter employee code to view employee profile</p>
 
     <input type="text" id="empid" placeholder="Enter Employee Code (e.g. EMP001)" autocomplete="off">
     <button class="search-btn" onclick="searchEmployee()">Search Profile</button>
@@ -159,6 +99,29 @@ function goBackToPortal() {
 </div>
 
 <script>
+function searchEmployee(){
+    var empid = document.getElementById("empid").value.trim().toUpperCase();
+    
+    // Agar kisi ne khali box chhod kar search dabaya toh error page par nahi bhejega
+    if(empid === ""){
+        alert("Kripya pehle Employee Code dalein!");
+        return;
+    }
+    
+    // Aapka wahi fix main URL jiske aage ID lagani h
+    var baseUrl = "https://script.google.com/macros/s/AKfycbz8ElMc4zHXKox4d923V2rbh_x6nsRzNEWx2rRCTaU4XfILcScJUfb5bbvRKPVSwZ8HAg/exec";
+    
+    // Final URL generate hoga jaise: baseUrl + ?id=EMP001
+    var finalUrl = baseUrl + "?id=" + encodeURIComponent(empid);
+    
+    // Profile ko naye tab me open karega taaki aapka ye portal hamesha peeche fast khula rahe
+    window.open(finalUrl, '_blank');
+    
+    // Search karne ke baad box ko wapas khali karne ke liye
+    document.getElementById("empid").value = "";
+}
+
+// Keyboard se 'Enter' dabane par bhi search chal jaye uske liye
 document.getElementById("empid").addEventListener("keypress", function(e){
     if(e.key === "Enter"){ searchEmployee(); }
 });
